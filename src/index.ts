@@ -1,7 +1,17 @@
 import { Left, Maybe, Right } from 'fputils';
-import { Database } from 'sqlite3';
+import { Database, sqlite3 } from 'sqlite3';
 
-export const run = <Params>(db: Database, sql: string, params: Params[] = []): Promise<Maybe<number>> =>
+export const getDatabase = async (engine: sqlite3, filename: string): Promise<Maybe<Database>> =>
+    new Promise((resolve) => {
+        const database = new engine.Database(filename, (error) => {
+            if (error) {
+                return resolve(Left(error));
+            }
+            resolve(Right(database));
+        });
+    });
+
+export const run = (db: Database, sql: string, params: any[] = []): Promise<Maybe<number>> =>
     new Promise((resolve) => {
         db.run(sql, params, function (this: any, error: Error) {
             if (error) {
@@ -11,7 +21,7 @@ export const run = <Params>(db: Database, sql: string, params: Params[] = []): P
         })
     });
 
-export const get = <Params, T>(db: Database, sql: string, params: Params[] = []): Promise<Maybe<T>> =>
+export const get = <T>(db: Database, sql: string, params: any[] = []): Promise<Maybe<T>> =>
     new Promise((resolve) => {
         db.get(sql, params, (err: Error, result: T) => {
             if (err) {
@@ -23,7 +33,7 @@ export const get = <Params, T>(db: Database, sql: string, params: Params[] = [])
 
 
 
-export const all = <Params, T>(db: Database, sql: string, params: Params[] = []): Promise<Maybe<T[]>> =>
+export const all = <T>(db: Database, sql: string, params: any[] = []): Promise<Maybe<T[]>> =>
     new Promise((resolve) => {
         db.all(sql, params, (err: Error, rows) => {
             if (err) {
@@ -33,7 +43,7 @@ export const all = <Params, T>(db: Database, sql: string, params: Params[] = [])
         });
     });
 
-export const prepare = <Params>(db: Database, sql: string, params: Array<Array<Params>>): Promise<Maybe<undefined>> => new Promise((resolve) => {
+export const prepare = (db: Database, sql: string, params: Array<Array<any>>): Promise<Maybe<undefined>> => new Promise((resolve) => {
         const stmt = db.prepare(sql, (e) => {
             if (e) {
                 return resolve(Left(e));
