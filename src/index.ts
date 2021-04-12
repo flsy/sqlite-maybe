@@ -1,4 +1,4 @@
-import { Left, Maybe, Right } from 'fputils';
+import { isLeft, Left, Maybe, Right } from 'fputils';
 import { Database, sqlite3 } from 'sqlite3';
 
 /**
@@ -91,3 +91,30 @@ export const prepare = (db: Database, sql: string, params: Array<Array<any>>): P
             });
         });
     });
+
+
+/**
+ *
+ * @param {Database} db
+ * @param {string[]} statements
+ * @return {Promise<Maybe<void>>}
+ */
+export const runBatch = async (db: Database, statements: string[]): Promise<Maybe<void>> => {
+    const batch = ['BEGIN', ...statements, 'COMMIT'];
+
+    let i = 0;
+    while (i < batch.length) {
+        const result = await run(db, batch[i]);
+        if (isLeft(result)) {
+            const rollback = await run(db, 'ROLLBACK');
+            if (isLeft(rollback)) {
+                return Left(new Error(`Error while rollback: ${rollback.value.message}`));
+            }
+
+            return Left(new Error(result.value.message + ' in statement: ' + batch[i]))
+        }
+        i++;
+    }
+
+    return Right(undefined)
+};
