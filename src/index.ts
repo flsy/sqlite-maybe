@@ -1,6 +1,12 @@
 import { Left, Maybe, Right } from 'fputils';
 import { Database, sqlite3 } from 'sqlite3';
 
+/**
+ *
+ * @param {sqlite3} engine
+ * @param {string} filename
+ * @return {Promise<Maybe<Database>>}
+ */
 export const getDatabase = async (engine: sqlite3, filename: string): Promise<Maybe<Database>> =>
     new Promise((resolve) => {
         const database = new engine.Database(filename, (error) => {
@@ -11,6 +17,13 @@ export const getDatabase = async (engine: sqlite3, filename: string): Promise<Ma
         });
     });
 
+/**
+ *
+ * @param {Database} db
+ * @param {string} sql
+ * @param {any[]} params
+ * @return {Promise<Maybe<number>>}
+ */
 export const run = (db: Database, sql: string, params: any[] = []): Promise<Maybe<number>> =>
     new Promise((resolve) => {
         db.run(sql, params, function (this: any, error: Error) {
@@ -21,6 +34,13 @@ export const run = (db: Database, sql: string, params: any[] = []): Promise<Mayb
         })
     });
 
+/**
+ *
+ * @param {Database} db
+ * @param {string} sql
+ * @param {any[]} params
+ * @return {Promise<Maybe<T>>}
+ */
 export const get = <T>(db: Database, sql: string, params: any[] = []): Promise<Maybe<T>> =>
     new Promise((resolve) => {
         db.get(sql, params, (err: Error, result: T) => {
@@ -32,7 +52,13 @@ export const get = <T>(db: Database, sql: string, params: any[] = []): Promise<M
     });
 
 
-
+/**
+ *
+ * @param {Database} db
+ * @param {string} sql
+ * @param {any[]} params
+ * @return {Promise<Maybe<T[]>>}
+ */
 export const all = <T>(db: Database, sql: string, params: any[] = []): Promise<Maybe<T[]>> =>
     new Promise((resolve) => {
         db.all(sql, params, (err: Error, rows) => {
@@ -43,6 +69,13 @@ export const all = <T>(db: Database, sql: string, params: any[] = []): Promise<M
         });
     });
 
+/**
+ *
+ * @param {Database} db
+ * @param {string} sql
+ * @param {Array<Array<any>>} params
+ * @return {Promise<Maybe<undefined>>}
+ */
 export const prepare = (db: Database, sql: string, params: Array<Array<any>>): Promise<Maybe<undefined>> => new Promise((resolve) => {
         const stmt = db.prepare(sql, (e) => {
             if (e) {
