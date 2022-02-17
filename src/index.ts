@@ -1,7 +1,8 @@
-import { isLeft, Left, Maybe, Right } from 'fputils';
+import { isLeft, Left, Maybe, Optional, Right } from 'fputils';
 import { Database, sqlite3 } from 'sqlite3';
 
 /**
+ * Returns a new Database object and automatically opens the database
  *
  * @param {sqlite3} engine
  * @param {string} filename
@@ -18,6 +19,7 @@ export const getDatabase = async (engine: sqlite3, filename: string): Promise<Ma
     });
 
 /**
+ * Runs the SQL query. It does not retrieve any result data, but last inserted `id`
  *
  * @param {Database} db
  * @param {string} sql
@@ -35,13 +37,14 @@ export const run = (db: Database, sql: string, params: any[] = []): Promise<Mayb
     });
 
 /**
+ * Runs the SQL query. Result is an object containing the values for the first row.
  *
  * @param {Database} db
  * @param {string} sql
  * @param {any[]} params
- * @return {Promise<Maybe<T>>}
+ * @return {Promise<Maybe<Optional<T>>>}
  */
-export const get = <T>(db: Database, sql: string, params: any[] = []): Promise<Maybe<T>> =>
+export const get = <T>(db: Database, sql: string, params: any[] = []): Promise<Maybe<Optional<T>>> =>
     new Promise((resolve) => {
         db.get(sql, params, (err: Error, result: T) => {
             if (err) {
@@ -53,6 +56,7 @@ export const get = <T>(db: Database, sql: string, params: any[] = []): Promise<M
 
 
 /**
+ * Runs the SQL query. Returned rows is an array.
  *
  * @param {Database} db
  * @param {string} sql

@@ -15,11 +15,11 @@
     "@types/node" "*"
 
 fputils@^1.1.6:
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/fputils/-/fputils-1.1.6.tgz#ab1816aeff4a13dde8bb113b2f80d300227ae66e"
-  integrity sha512-c/q/CDzqPCLicHCCCargneBdTMyPShuC5XSNHJAlD3aPatBgeD1QvAWz8ZfifxmE+JhTwFd9Qgs8/rD4agR4Kg==
+  version "1.2.8"
+  resolved "https://registry.yarnpkg.com/fputils/-/fputils-1.2.8.tgz#1b8e1edaad67e6fadfbfab44aea01ea4bc0f7374"
+  integrity sha512-ficaFLpd7ytFTxHQGd7ZKk48WVAbi3bPNWU9J3nyNZ9iSPxbE3PmMCdfhAV1YzJY1UNvnegba/9d1iZugGcbzg==
 
 typescript@^4.2.3:
-  version "4.2.3"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.2.3.tgz#39062d8019912d43726298f09493d598048c1ce3"
-  integrity sha512-qOcYwxaByStAWrBf4x0fibwZvMRG+r4cQoTjbPtUlrWjBHbmCAww1i448U0GJ+3cNNEtebDteo/cHOR3xJ4wEw==
+  version "4.5.5"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.5.5.tgz#d8c953832d28924a9e3d37c73d729c846c5896f3"
+  integrity sha512-TCTIul70LyWe6IJWT8QSYeA54WQe8EjQFU4wY52Fasj5UKx88LNYKCgBEHcOMOrFF1rKGbD8v/xcNWVUq9SymA==
