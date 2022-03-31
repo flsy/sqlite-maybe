@@ -1,11 +1,11 @@
 {
   "name": "sqlite-maybe",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "repository": "git@github.com:smidhonza/sqlite-maybe.git",
   "author": "Honza Smid <jansmidhonza@gmail.com>",
   "license": "MIT",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "lib/index",
+  "types": "lib/index",
   "files": [
     "lib",
     "src"
@@ -13,9 +13,6 @@
   "scripts": {
     "build": "rm -rf ./lib && tsc",
     "prepublishOnly": "yarn build"
-  },
-  "peerDependencies": {
-    "fputils": "^1.1.6"
   },
   "devDependencies": {
     "fputils": "^1.1.6",

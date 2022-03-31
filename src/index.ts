@@ -8,7 +8,7 @@ import { Database, sqlite3 } from 'sqlite3';
  * @param {string} filename
  * @return {Promise<Maybe<Database>>}
  */
-export const getDatabase = async (engine: sqlite3, filename: string): Promise<Maybe<Database>> =>
+const getDatabase = async (engine: sqlite3, filename: string): Promise<Maybe<Database>> =>
     new Promise((resolve) => {
         const database = new engine.Database(filename, (error) => {
             if (error) {
@@ -26,7 +26,7 @@ export const getDatabase = async (engine: sqlite3, filename: string): Promise<Ma
  * @param {any[]} params
  * @return {Promise<Maybe<number>>}
  */
-export const run = (db: Database, sql: string, params: any[] = []): Promise<Maybe<number>> =>
+const run = (db: Database, sql: string, params: any[] = []): Promise<Maybe<number>> =>
     new Promise((resolve) => {
         db.run(sql, params, function (this: any, error: Error) {
             if (error) {
@@ -44,7 +44,7 @@ export const run = (db: Database, sql: string, params: any[] = []): Promise<Mayb
  * @param {any[]} params
  * @return {Promise<Maybe<Optional<T>>>}
  */
-export const get = <T>(db: Database, sql: string, params: any[] = []): Promise<Maybe<Optional<T>>> =>
+const get = <T>(db: Database, sql: string, params: any[] = []): Promise<Maybe<Optional<T>>> =>
     new Promise((resolve) => {
         db.get(sql, params, (err: Error, result: T) => {
             if (err) {
@@ -63,7 +63,7 @@ export const get = <T>(db: Database, sql: string, params: any[] = []): Promise<M
  * @param {any[]} params
  * @return {Promise<Maybe<T[]>>}
  */
-export const all = <T>(db: Database, sql: string, params: any[] = []): Promise<Maybe<T[]>> =>
+const all = <T>(db: Database, sql: string, params: any[] = []): Promise<Maybe<T[]>> =>
     new Promise((resolve) => {
         db.all(sql, params, (err: Error, rows) => {
             if (err) {
@@ -80,7 +80,7 @@ export const all = <T>(db: Database, sql: string, params: any[] = []): Promise<M
  * @param {Array<Array<any>>} params
  * @return {Promise<Maybe<undefined>>}
  */
-export const prepare = (db: Database, sql: string, params: Array<Array<any>>): Promise<Maybe<undefined>> => new Promise((resolve) => {
+const prepare = (db: Database, sql: string, params: Array<Array<any>>): Promise<Maybe<undefined>> => new Promise((resolve) => {
         const stmt = db.prepare(sql, (e) => {
             if (e) {
                 return resolve(Left(e));
@@ -103,7 +103,7 @@ export const prepare = (db: Database, sql: string, params: Array<Array<any>>): P
  * @param {string[]} statements
  * @return {Promise<Maybe<void>>}
  */
-export const runBatch = async (db: Database, statements: string[]): Promise<Maybe<void>> => {
+const runBatch = async (db: Database, statements: string[]): Promise<Maybe<void>> => {
     const batch = ['BEGIN', ...statements, 'COMMIT'];
 
     let i = 0;
@@ -122,3 +122,12 @@ export const runBatch = async (db: Database, statements: string[]): Promise<Mayb
 
     return Right(undefined)
 };
+
+export {
+    getDatabase,
+    run,
+    get,
+    all,
+    prepare,
+    runBatch
+}
